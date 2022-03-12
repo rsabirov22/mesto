@@ -1,0 +1,18 @@
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #FFFFFF;
+  padding: 0;
+  border-radius: 2px;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 690px) {
+  .add-button {
+    width: 100%;
+  }
+}

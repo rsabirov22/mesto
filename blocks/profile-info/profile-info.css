@@ -1,0 +1,18 @@
+.profile-info {
+  margin-left: 30px;
+  color: #FFFFFF;
+  display: grid;
+  grid-template-columns:  minmax(min-content, max-content) 1fr;
+  grid-gap: 10px 24px;
+  grid-template-areas: 
+    'name edit-button'
+    'description edit-button';
+    
+}
+
+@media screen and (max-width: 690px) {
+  .profile-info {
+    margin: 0 0 36px 0;
+    justify-items: center;
+  }
+}

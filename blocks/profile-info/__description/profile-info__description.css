@@ -1,0 +1,14 @@
+.profile-info__description {
+  font-family: 'Inter-Thin', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  margin: 0;
+  grid-area: description;
+}
+
+@media screen and (max-width: 380px) {
+  .profile-info__description {
+    font-size: 14px;
+  }
+}
