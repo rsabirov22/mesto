@@ -3,10 +3,15 @@
   height: 24px;
   display: block;
   border: 1px solid #FFFFFF;
-  background: transparent;
+  background: transparent url(../../../images/edit.svg) center center no-repeat;
   padding: 0;
   grid-area: edit-button;
   margin-top: 15px;
+  transition: opacity 0.4s ease;
+}
+
+.profile-info__edit-button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 380px) {
