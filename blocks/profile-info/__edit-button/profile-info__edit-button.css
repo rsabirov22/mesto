@@ -8,6 +8,7 @@
   grid-area: edit-button;
   margin-top: 15px;
   transition: opacity 0.4s ease;
+  cursor: pointer;
 }
 
 .profile-info__edit-button:hover {

@@ -6,6 +6,7 @@
   background: transparent url(../../../images/like.svg) center center no-repeat;
   border: none;
   transition: opacity 0.4s ease;
+  cursor: pointer;
 }
 
 .element__btn:hover {

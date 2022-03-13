@@ -26,15 +26,6 @@
 }
 
 @font-face {
-  src: url('../fonts/Inter-ExtraBold.woff2') format('woff2'),
-       url('../fonts/Inter-ExtraBold.woff') format('woff');
-  font-family: 'Inter-ExtraBold';
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   src: url('../fonts/Inter-Black.woff2') format('woff2'),
        url('../fonts/Inter-Black.woff') format('woff');
   font-family: 'Inter-Black';
