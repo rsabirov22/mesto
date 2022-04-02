@@ -1,22 +1,83 @@
-let container = document.querySelector('.content');
-let editButton = container.querySelector('.profile__edit-button');
-let profileName = container.querySelector('.profile__name');
-let profileJob = container.querySelector('.profile__description');
-let popup = document.querySelector('.popup');
-let closeButton = popup.querySelector('.popup__close-btn');
-let nameInput = popup.querySelector('#nickname');
-let jobInput = popup.querySelector('#job');
-let formElement = popup.querySelector('.form');
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
-function openPopup() {
-  popup.classList.add('popup_opened');
+const cardsContainer = document.querySelector('.elements');
+const container = document.querySelector('.content');
+const editButton = container.querySelector('.profile__edit-button');
+const addButton = container.querySelector('.profile__add-button');
+const profileName = container.querySelector('.profile__name');
+const profileJob = container.querySelector('.profile__description');
+const popupEdit = document.querySelector('.popup_edit');
+const popupAdd = document.querySelector('.popup_add');
+const closeEditButton = popupEdit.querySelector('.popup__close-btn');
+const closeAddButton = popupAdd.querySelector('.popup__close-btn');
+const nameInput = popupEdit.querySelector('#nickname');
+const jobInput = popupEdit.querySelector('#job');
+const mestoNameInput = popupAdd.querySelector('#card-name');
+const mestoImgLink = popupAdd.querySelector('#img-link');
+const formElement = popupEdit.querySelector('.form');
+const addCardForm = popupAdd.querySelector('.form_add-card');
+
+const createCard = (element) => {
+  const template = document.querySelector('#card');
+  const card = template.content.querySelector('.element').cloneNode(true);
+  const likeBtn = card.querySelector('.element__btn');
+
+  card.querySelector('.element__title').textContent = element.name;
+  card.querySelector('.element__image').src = element.link;
+
+  card.querySelector('.element__btn').addEventListener('click', () => {
+    likeBtn.classList.toggle('element__btn_active');
+  });
+
+  card.querySelector('.element__del').addEventListener('click', () => {
+    card.remove();
+  });
+
+  return card;
+}
+
+function openPopupEdit() {
+  popupEdit.classList.add('popup_opened');
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
 
-function closePopup() {
-  popup.classList.remove('popup_opened');
+function openPopupAdd() {
+  popupAdd.classList.add('popup_opened');
+}
+
+function closePopupEdit() {
+  popupEdit.classList.remove('popup_opened');
+}
+
+function closePopupAdd() {
+  popupAdd.classList.remove('popup_opened');
 }
 
 function formSubmitHandler (evt) {
@@ -25,9 +86,37 @@ function formSubmitHandler (evt) {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
 
-  closePopup();
+  closePopupEdit();
 }
 
-editButton.addEventListener('click', openPopup);
-closeButton.addEventListener('click', closePopup);
-formElement.addEventListener('submit', formSubmitHandler); 
+const renderCard = (card) => {
+  cardsContainer.prepend(createCard(card));
+}
+
+const formSubmitAddHandler = (event) => {
+  event.preventDefault();
+
+  let newCard = {name: null, link: null};
+
+  newCard.name = mestoNameInput.value;
+  newCard.link = mestoImgLink.value;
+
+  renderCard(newCard);
+
+  mestoNameInput.value = '';
+  mestoImgLink.value = '';
+  closePopupAdd();
+}
+
+const elements = initialCards.map(function(el) {
+  return createCard(el);
+})
+
+cardsContainer.append(...elements)
+
+editButton.addEventListener('click', openPopupEdit);
+addButton.addEventListener('click', openPopupAdd);
+closeEditButton.addEventListener('click', closePopupEdit);
+closeAddButton.addEventListener('click', closePopupAdd);
+formElement.addEventListener('submit', formSubmitHandler);
+addCardForm.addEventListener('submit', formSubmitAddHandler);

@@ -11,7 +11,7 @@
     grid-area: description;
   }
   
-  @media screen and (max-width: 380px) {
+  @media screen and (max-width: 411px) {
     .profile__description {
       max-width: 190px;
       font-size: 14px;
