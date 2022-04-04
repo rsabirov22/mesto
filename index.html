@@ -22,9 +22,9 @@
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
-          <button type="button" aria-label="Редактировать" class="profile__edit-button"></button>
+          <button type="button" aria-label="Редактировать" id="edit-profile" class="profile__edit-button"></button>
         </div>
-        <button type="button" aria-label="Добавить" class="profile__add-button"></button>
+        <button type="button" aria-label="Добавить" id="add-mesto" class="profile__add-button"></button>
       </section>
       <section class="elements"></section>
     </main>
@@ -39,7 +39,7 @@
 
   <template id="card">
     <div class="element">
-      <img class="element__image" src="url" alt="изображение">
+      <img class="element__image" src="#" alt="изображение">
       <div class="element__description">
         <p class="element__title"></p>
         <button type="button" aria-label="Лайк" class="element__btn"></button>
@@ -55,9 +55,9 @@
         <h3 class="form__title">Редактировать профиль</h3>
         <input type="text" class="form__item" id="nickname" name="name" placeholder="Имя" required>
         <input type="text" class="form__item" id="job" name="description" placeholder="О себе" required>
-        <button type="submit" class="form__btn">Сохранить</button>
+        <button type="submit" id="edit-submit" class="form__btn">Сохранить</button>
       </form>
-      <button type="button" aria-label="Закрыть" class="popup__close-btn"></button>
+      <button type="button" aria-label="Закрыть" id="edit-close" class="popup__close-btn"></button>
     </div>
   </div>
   <!-- Popup edit -->
@@ -69,9 +69,9 @@
         <h3 class="form__title">Новое место</h3>
         <input type="text" class="form__item" id="card-name" name="mesto-name" placeholder="Название" required>
         <input type="text" class="form__item" id="img-link" name="mesto-img" placeholder="Ссылка на картинку" required>
-        <button type="submit" class="form__btn">Создать</button>
+        <button type="submit" id="add-submit" class="form__btn">Создать</button>
       </form>
-      <button type="button" aria-label="Закрыть" class="popup__close-btn"></button>
+      <button type="button" aria-label="Закрыть" id="add-close" class="popup__close-btn"></button>
     </div>
   </div>
   <!-- Popup add -->
@@ -79,13 +79,14 @@
   <!-- Popup gallery -->
   <div class="gallery">
     <div class="gallery__container">
-      <img src="url" class="gallery__img" alt="изображение">
+      <img src="#" class="gallery__img" alt="изображение">
       <p class="gallery__description"></p>
       <button type="button" aria-label="Закрыть" class="gallery__close-btn"></button>
     </div>
   </div>
   <!-- Popup gallery -->
 
+  <script src="./scripts/cards.js"></script>
   <script src="./scripts/script.js"></script>
 </body>
 </html>
