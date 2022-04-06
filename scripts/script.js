@@ -36,9 +36,10 @@ const createCard = (element) => {
   });
 
   card.querySelector('.element__image').addEventListener('click', (e) => {
-    gallery.classList.add('gallery_opened');
     galleryImg.src = element.link;
     gallerydescr.textContent = element.name;
+
+    openPopup(gallery);
   });
 
   return card;
@@ -58,10 +59,6 @@ function openPropfilePopup(popupEdit) {
 
   openPopup(popupEdit);
 } 
-
-function closePopupGallery() {
-  gallery.classList.remove('gallery_opened');
-}
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
@@ -110,6 +107,8 @@ closeEditButton.addEventListener('click', () => {
 closeAddButton.addEventListener('click', () => {
   closePopup(popupAdd);
 });
-closeGalleryButton.addEventListener('click', closePopupGallery);
+closeGalleryButton.addEventListener('click', () => {
+  closePopup(gallery);
+});
 formElement.addEventListener('submit', formSubmitHandler);
 addCardForm.addEventListener('submit', formSubmitAddHandler);
