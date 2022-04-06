@@ -44,20 +44,20 @@ const createCard = (element) => {
   return card;
 }
 
-function openPopup(evt) {
-  if (evt.target.id === 'edit-profile') {
-    popupEdit.classList.add('popup_opened');
-
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-  } else if (evt.target.id === 'add-mesto') {
-    popupAdd.classList.add('popup_opened');
-  }
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
+
+function openPropfilePopup(popupEdit) { 
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+
+  openPopup(popupEdit);
+} 
 
 function closePopupGallery() {
   gallery.classList.remove('gallery_opened');
@@ -98,8 +98,12 @@ const elements = initialCards.map(function(el) {
 
 cardsContainer.append(...elements)
 
-editButton.addEventListener('click', openPopup);
-addButton.addEventListener('click', openPopup);
+editButton.addEventListener('click', () => {
+  openPropfilePopup(popupEdit);
+});
+addButton.addEventListener('click', () => {
+  openPopup(popupAdd);
+});
 closeEditButton.addEventListener('click', () => {
   closePopup(popupEdit);
 });
