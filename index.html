@@ -51,13 +51,48 @@
   <!-- Popup edit -->
   <div class="popup popup_edit">
     <div class="popup__container">
-      <form class="form" name="edit-profile">
-        <h3 class="form__title">Редактировать профиль</h3>
-        <input type="text" class="form__item" id="nickname" name="name" placeholder="Имя" required>
-        <input type="text" class="form__item" id="job" name="description" placeholder="О себе" required>
-        <button type="submit" id="edit-submit" class="form__btn">Сохранить</button>
+      <form class="popup__form" name="edit-profile" novalidate>
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <label class="popup__field">
+          <input
+            type="text"
+            class="popup__input popup__input_type_name"
+            id="nickname"
+            name="name"
+            placeholder="Имя"
+            minlength="2"
+            maxlength="40"
+            required
+          >
+          <span id="nickname-error" class="popup__error"></span>
+        </label>
+        <label class="popup__field">
+          <input
+            type="text"
+            class="popup__input popup__input_type_description"
+            id="job"
+            name="description"
+            placeholder="О себе"
+            minlength="2"
+            maxlength="200"
+            required
+          >
+          <span id="job-error" class="popup__error"></span>
+        </label>
+        <button
+          type="submit"
+          id="edit-submit"
+          class="popup__button"
+        >
+          Сохранить
+        </button>
       </form>
-      <button type="button" aria-label="Закрыть" id="edit-close" class="popup__close-btn"></button>
+      <button
+        type="button"
+        aria-label="Закрыть"
+        id="edit-close"
+        class="popup__close-btn"
+      ></button>
     </div>
   </div>
   <!-- Popup edit -->
@@ -65,13 +100,46 @@
   <!-- Popup add -->
   <div class="popup popup_add">
     <div class="popup__container">
-      <form class="form form_add-card" name="add-card">
-        <h3 class="form__title">Новое место</h3>
-        <input type="text" class="form__item" id="card-name" name="mesto-name" placeholder="Название" required>
-        <input type="text" class="form__item" id="img-link" name="mesto-img" placeholder="Ссылка на картинку" required>
-        <button type="submit" id="add-submit" class="form__btn">Создать</button>
+      <form class="popup__form popup__form_add-card" name="add-card" novalidate>
+        <h3 class="popup__title">Новое место</h3>
+        <label class="popup__field">
+          <input
+            type="text"
+            class="popup__input"
+            id="card-name"
+            name="mesto-name"
+            placeholder="Название"
+            minlength="2"
+            maxlength="30"
+            required
+          >
+          <span id="card-name-error" class="popup__error"></span>
+        </label>
+        <label class="popup__field">
+          <input
+            type="text"
+            class="popup__input"
+            id="img-link"
+            name="mesto-img"
+            placeholder="Ссылка на картинку"
+            required
+          >
+          <span id="img-link-error" class="popup__error"></span>
+        </label>
+        <button
+          type="submit"
+          id="add-submit"
+          class="popup__button"
+        >
+          Создать
+        </button>
       </form>
-      <button type="button" aria-label="Закрыть" id="add-close" class="popup__close-btn"></button>
+      <button
+        type="button"
+        aria-label="Закрыть"
+        id="add-close"
+        class="popup__close-btn"
+      ></button>
     </div>
   </div>
   <!-- Popup add -->
@@ -86,6 +154,7 @@
   </div>
   <!-- Popup gallery -->
 
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/cards.js"></script>
   <script src="./scripts/script.js"></script>
 </body>

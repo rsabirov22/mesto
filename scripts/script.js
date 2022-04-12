@@ -13,8 +13,8 @@ const nameInput = popupEdit.querySelector('#nickname');
 const jobInput = popupEdit.querySelector('#job');
 const mestoNameInput = popupAdd.querySelector('#card-name');
 const mestoImgLink = popupAdd.querySelector('#img-link');
-const formElement = popupEdit.querySelector('.form');
-const addCardForm = popupAdd.querySelector('.form_add-card');
+const formElement = popupEdit.querySelector('.popup__form');
+const addCardForm = popupAdd.querySelector('.popup__form_add-card');
 const gallery = document.querySelector('.gallery');
 const galleryImg = gallery.querySelector('.gallery__img');
 const gallerydescr = gallery.querySelector('.gallery__description');
@@ -53,12 +53,12 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-function openPropfilePopup(popupEdit) { 
+function openPropfilePopup(popupEdit) {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 
   openPopup(popupEdit);
-} 
+}
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
