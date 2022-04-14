@@ -1,6 +1,5 @@
 // Добавляет на инпуты класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, settings) => {
-  // Находим элемент ошибки внутри самой функции
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
   inputElement.classList.add(settings.inputErrorClass);
@@ -19,9 +18,6 @@ const hideInputError = (formElement, inputElement, settings) => {
 };
 
 // проверяем валидность поля
-// Функция isValid теперь принимает formElement и inputElement,
-// а не берёт их из внешней области видимости
-
 const isValid = (formElement, inputElement, settings) => {
   if (!inputElement.validity.valid) {
     // showInputError теперь получает параметром форму, в которой
@@ -35,22 +31,20 @@ const isValid = (formElement, inputElement, settings) => {
 };
 
 // Функция принимает массив полей
-
 const hasInvalidInput = (inputList) => {
   // проходим по этому массиву методом some
   return inputList.some((inputElement) => {
     // Если поле не валидно, колбэк вернёт true
     // Обход массива прекратится и вся функция
     // hasInvalidInput вернёт true
-
     return !inputElement.validity.valid;
   })
 };
 
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
-
 const toggleButtonState = (inputList, buttonElement, settings) => {
+
   // Если есть хотя бы один невалидный инпут
   if (hasInvalidInput(inputList)) {
     // сделай кнопку неактивной
@@ -69,6 +63,10 @@ const setEventListeners = (formElement, settings) => {
     // Найдём в текущей форме кнопку отправки
   const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
+  if (formElement.className === 'popup__form popup__form_add-card') {
+    toggleButtonState(inputList, buttonElement, settings);
+  }
+
   // Обойдём все элементы полученной коллекции
   inputList.forEach((inputElement) => {
     // каждому полю добавим обработчик события input
@@ -83,19 +81,13 @@ const setEventListeners = (formElement, settings) => {
 };
 
 const enableValidation = (settings) => {
-  // Найдём все формы с указанным классом в DOM,
-  // сделаем из них массив методом Array.from
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
-  // Переберём полученную коллекцию
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
-      // У каждой формы отменим стандартное поведение
       evt.preventDefault();
     });
 
-    // Для каждой формы вызовем функцию setEventListeners,
-    // передав ей элемент формы
     setEventListeners(formElement, settings);
   });
 };

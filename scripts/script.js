@@ -5,6 +5,7 @@ const editButton = container.querySelector('.profile__edit-button');
 const addButton = container.querySelector('.profile__add-button');
 const profileName = container.querySelector('.profile__name');
 const profileJob = container.querySelector('.profile__description');
+const popup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const closeEditButton = popupEdit.querySelector('.popup_edit .popup__close-btn');
@@ -47,10 +48,36 @@ const createCard = (element) => {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+
+  document.addEventListener('keydown', (e) => {
+    closeOnEscape(e);
+  });
+
+  popup.addEventListener('click', (e) => {
+    closeOnClickOutside(e);
+  });
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeOnEscape);
+  document.removeEventListener('click', closeOnClickOutside);
+}
+
+function closeOnClickOutside (evt) {
+	if (evt.target.attributes.role && evt.target.attributes.role.value === 'overlay') {
+    closePopup(popupEdit);
+    closePopup(popupAdd);
+    closePopup(gallery);
+	}
+}
+
+function closeOnEscape (evt) {
+  if (evt.key === 'Escape') {
+    closePopup(popupEdit);
+    closePopup(popupAdd);
+    closePopup(gallery);
+  }
 }
 
 function openPropfilePopup(popupEdit) {
