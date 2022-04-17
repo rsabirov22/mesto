@@ -19,7 +19,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
-  color: #000000;
+  color: #C4C4C4;
 }
 
 .popup__input::-webkit-input-placeholder {
@@ -27,7 +27,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
-  color: #000000;
+  color: #C4C4C4;
 }
 
 .popup__input::-moz-placeholder {
@@ -35,7 +35,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
-  color: #000000;
+  color: #C4C4C4;
 }
 
 .popup__input::-ms-input-placeholder {
@@ -43,7 +43,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.2;
-  color: #000000;
+  color: #C4C4C4;
 }
 
 .popup__input:focus {
