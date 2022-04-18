@@ -48,41 +48,28 @@ const createCard = (element) => {
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 
-  document.addEventListener('keydown', (e) => {
-    handleEscape(e, popup);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    handleEnter(e, popup);
-  });
-
-  popup.addEventListener('click', (e) => {
-    handleClickOutside(e, popup);
-  });
+  document.addEventListener('keydown', handleEscape);
+  popup.addEventListener('click', handleClickOutside);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+
   document.removeEventListener('keydown', handleEscape);
-  document.removeEventListener('keydown', handleEnter);
   popup.removeEventListener('click', handleClickOutside);
 }
 
-function handleClickOutside (evt, popup) {
+function handleClickOutside (evt) {
+  const popup = evt.currentTarget;
+
   if (evt.target === evt.currentTarget) {
     closePopup(popup);
 	}
 }
 
-function handleEnter (evt, popup) {
-  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+function handleEscape (evt) {
+  const popup = document.querySelector('.popup_opened');
 
-  if (evt.key === 'Enter' && hasInvalidInput(inputList)) {
-    evt.preventDefault();
-  }
-}
-
-function handleEscape (evt, popup) {
   if (evt.key === 'Escape') {
     closePopup(popup);
   }
@@ -122,7 +109,7 @@ const renderCard = (card) => {
 const formSubmitAddHandler = (event) => {
   event.preventDefault();
 
-  let newCard = {name: null, link: null};
+  const newCard = {name: null, link: null};
 
   newCard.name = mestoNameInput.value;
   newCard.link = mestoImgLink.value;
