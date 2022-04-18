@@ -52,6 +52,10 @@ function openPopup(popup) {
     handleEscape(e, popup);
   });
 
+  document.addEventListener('keydown', (e) => {
+    handleEnter(e, popup);
+  });
+
   popup.addEventListener('click', (e) => {
     handleClickOutside(e, popup);
   });
@@ -60,6 +64,7 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscape);
+  document.removeEventListener('keydown', handleEnter);
   popup.removeEventListener('click', handleClickOutside);
 }
 
@@ -67,6 +72,14 @@ function handleClickOutside (evt, popup) {
   if (evt.target === evt.currentTarget) {
     closePopup(popup);
 	}
+}
+
+function handleEnter (evt, popup) {
+  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+
+  if (evt.key === 'Enter' && hasInvalidInput(inputList)) {
+    evt.preventDefault();
+  }
 }
 
 function handleEscape (evt, popup) {
@@ -95,12 +108,11 @@ function openAddCardPopup(popupAdd) {
 function formSubmitHandler (evt) {
   evt.preventDefault();
 
-  const inputList = Array.from(popupEdit.querySelectorAll('.popup__input'));
-
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
 
   closePopup(popupEdit);
+
 }
 
 const renderCard = (card) => {
