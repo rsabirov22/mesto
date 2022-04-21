@@ -23,11 +23,13 @@ const galleryCloseButton = gallery.querySelector('.gallery__close-btn');
 const createCard = (element) => {
   const card = template.content.querySelector('.element').cloneNode(true);
   const likeBtn = card.querySelector('.element__btn');
+  const photo = card.querySelector('.element__image');
+
 
   card.querySelector('.element__title').textContent = element.name;
-  card.querySelector('.element__image').src = element.link;
+  photo.src = element.link;
 
-  card.querySelector('.element__btn').addEventListener('click', () => {
+  likeBtn.addEventListener('click', () => {
     likeBtn.classList.toggle('element__btn_active');
   });
 
@@ -35,7 +37,7 @@ const createCard = (element) => {
     card.remove();
   });
 
-  card.querySelector('.element__image').addEventListener('click', (e) => {
+  photo.addEventListener('click', (e) => {
     galleryImg.src = element.link;
     gallerydescr.textContent = element.name;
 
