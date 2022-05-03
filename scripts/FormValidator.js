@@ -1,37 +1,49 @@
-// Добавляет на инпуты класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage, settings) => {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+class FormValidator {
+  constructor(settings, formElement) {
+    this._formSelector = settings.formSelector;
+    this._inputSelector = settings.inputSelector;
+    this._submitButtonSelector = settings.submitButtonSelector;
+    this._inactiveButtonClass = settings.inactiveButtonClass;
+    this._inputErrorClass = settings.inputErrorClass;
+    this._errorClass = settings.errorClass;
+    this._formElement = formElement;
+  }
 
-  inputElement.classList.add(settings.inputErrorClass);
+  // Добавляет на инпуты класс с ошибкой
+_showInputError(inputElement, errorMessage) {
+  const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+
+  inputElement.classList.add(this._inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add(settings.errorClass);
+  errorElement.classList.add(this._errorClass);
 };
 
 // Удаляем с инпутов класс с ошибкой
-const hideInputError = (formElement, inputElement, settings) => {
+_hideInputError(inputElement) {
   // Находим элемент ошибки
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
 
-  inputElement.classList.remove(settings.inputErrorClass);
-  errorElement.classList.remove(settings.errorClass);
+  inputElement.classList.remove(this._inputErrorClass);
+  errorElement.classList.remove(this._errorClass);
   errorElement.textContent = '';
 };
 
 // проверяем валидность поля
-const isValid = (formElement, inputElement, settings) => {
+_isValid(inputElement) {
+
   if (!inputElement.validity.valid) {
     // showInputError теперь получает параметром форму, в которой
     // находится проверяемое поле, и само это поле
-    showInputError(formElement, inputElement, inputElement.validationMessage, settings);
+    this._showInputError(inputElement, inputElement.validationMessage);
   } else {
     // hideInputError теперь получает параметром форму, в которой
     // находится проверяемое поле, и само это поле
-    hideInputError(formElement, inputElement, settings);
+    this._hideInputError(inputElement);
   }
 };
 
 // Функция принимает массив полей
-const hasInvalidInput = (inputList) => {
+_hasInvalidInput(inputList) {
   // проходим по этому массиву методом some
   return inputList.some((inputElement) => {
     // Если поле не валидно, колбэк вернёт true
@@ -43,30 +55,29 @@ const hasInvalidInput = (inputList) => {
 
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
-const toggleButtonState = (inputList, buttonElement, settings) => {
-
+_toggleButtonState(inputList, buttonElement) {
   // Если есть хотя бы один невалидный инпут
-  if (hasInvalidInput(inputList)) {
+  if (this._hasInvalidInput(inputList)) {
     // сделай кнопку неактивной
-    buttonElement.classList.add(settings.inactiveButtonClass);
+    buttonElement.classList.add(this._inactiveButtonClass);
     buttonElement.setAttribute('disabled', 'disabled');
   } else {
     // иначе сделай кнопку активной
-    buttonElement.classList.remove(settings.inactiveButtonClass);
+    buttonElement.classList.remove(this._inactiveButtonClass);
     buttonElement.removeAttribute('disabled', 'disabled');
   }
 };
 
 // Отслеживаем изменения в инпутах
-const setEventListeners = (formElement, settings) => {
+_setEventListeners() {
   // Находим все поля внутри формы,
   // сделаем из них массив методом Array.from
-  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     // Найдём в текущей форме кнопку отправки
-  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
-  if (formElement.className === 'popup__form popup__form_add-card') {
-    toggleButtonState(inputList, buttonElement, settings);
+  if (this._formElement.className === 'popup__form popup__form_add-card') {
+    this._toggleButtonState(inputList, buttonElement);
   }
 
   // Обойдём все элементы полученной коллекции
@@ -75,30 +86,23 @@ const setEventListeners = (formElement, settings) => {
     inputElement.addEventListener('input', () => {
       // Внутри колбэка вызовем isValid,
       // передав ей форму и проверяемый элемент
-      isValid(formElement, inputElement, settings)
+      this._isValid(inputElement)
       // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-      toggleButtonState(inputList, buttonElement, settings);
+      this._toggleButtonState(inputList, buttonElement);
     });
   });
 };
 
-const enableValidation = (settings) => {
-  const formList = Array.from(document.querySelectorAll(settings.formSelector));
+enableValidation() {
 
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
-
-    setEventListeners(formElement, settings);
+  this._formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
   });
+
+  this._setEventListeners();
+
 };
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-});
+}
+
+export default FormValidator;

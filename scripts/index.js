@@ -1,51 +1,51 @@
-const template = document.querySelector('#card');
-const cardsContainer = document.querySelector('.elements');
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+import { initialCards } from './cards.js';
+
 const container = document.querySelector('.content');
+const cardsContainer = document.querySelector('.elements');
+export const gallery = document.querySelector('.gallery');
+export const galleryImg = gallery.querySelector('.gallery__img');
+export const gallerydescr = gallery.querySelector('.gallery__description');
+const galleryCloseButton = gallery.querySelector('.gallery__close-btn');
 const buttonEdit = container.querySelector('.profile__edit-button');
 const buttonAdd = container.querySelector('.profile__add-button');
-const profileName = container.querySelector('.profile__name');
-const profileJob = container.querySelector('.profile__description');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupEditCloseButton = popupEdit.querySelector('.popup_edit .popup__close-btn');
 const popupAddCloseButton = popupAdd.querySelector('.popup_add .popup__close-btn');
+const formElement = popupEdit.querySelector('.popup__form');
+const cardFormAdd = popupAdd.querySelector('.popup__form_add-card');
+const profileName = container.querySelector('.profile__name');
+const profileJob = container.querySelector('.profile__description');
 const nameInput = popupEdit.querySelector('#nickname');
 const jobInput = popupEdit.querySelector('#job');
 const mestoNameInput = popupAdd.querySelector('#card-name');
 const mestoImgLink = popupAdd.querySelector('#img-link');
-const formElement = popupEdit.querySelector('.popup__form');
-const cardFormAdd = popupAdd.querySelector('.popup__form_add-card');
-const gallery = document.querySelector('.gallery');
-const galleryImg = gallery.querySelector('.gallery__img');
-const gallerydescr = gallery.querySelector('.gallery__description');
-const galleryCloseButton = gallery.querySelector('.gallery__close-btn');
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+const formList = Array.from(document.querySelectorAll(config.formSelector));
 
-const createCard = (element) => {
-  const card = template.content.querySelector('.element').cloneNode(true);
-  const likeBtn = card.querySelector('.element__btn');
-  const photo = card.querySelector('.element__image');
+formList.forEach((form) => {
+  const validator = new FormValidator(config, form);
+  validator.enableValidation();
+});
 
+initialCards.forEach((item) => {
+  // Создадим экземпляр карточки
+  const card = new Card(item, '#card');
+  // Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
 
-  card.querySelector('.element__title').textContent = element.name;
-  photo.src = element.link;
-
-  likeBtn.addEventListener('click', () => {
-    likeBtn.classList.toggle('element__btn_active');
-  });
-
-  card.querySelector('.element__del').addEventListener('click', () => {
-    card.remove();
-  });
-
-  photo.addEventListener('click', (e) => {
-    galleryImg.src = element.link;
-    gallerydescr.textContent = element.name;
-
-    openPopup(gallery);
-  });
-
-  return card;
-}
+  // Добавляем в DOM
+  cardsContainer.append(cardElement);
+});
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -85,11 +85,13 @@ function openPropfilePopup(popupEdit) {
 }
 
 function openAddCardPopup(popupAdd) {
-  const settings = {inactiveButtonClass: 'popup__button_disabled'};
-  const inputList = Array.from(popupAdd.querySelectorAll('.popup__input'));
+  const form = popupAdd.querySelector('.popup__form_add-card');
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
   const buttonElement = popupAdd.querySelector('#add-submit');
 
-  toggleButtonState(inputList, buttonElement, settings);
+  const validator = new FormValidator(config, form);
+
+  validator._toggleButtonState(inputList, buttonElement);
 
   openPopup(popupAdd);
 }
@@ -104,10 +106,6 @@ function formSubmitHandler (evt) {
 
 }
 
-const renderCard = (card) => {
-  cardsContainer.prepend(createCard(card));
-}
-
 const formSubmitAddHandler = (event) => {
   event.preventDefault();
 
@@ -116,19 +114,19 @@ const formSubmitAddHandler = (event) => {
   newCard.name = mestoNameInput.value;
   newCard.link = mestoImgLink.value;
 
-  renderCard(newCard);
+  initialCards.unshift(newCard);
+
+  const card = new Card(newCard, '#card');
+  const cardElement = card.generateCard();
+
+  cardsContainer.prepend(cardElement);
+
 
   mestoNameInput.value = '';
   mestoImgLink.value = '';
 
   closePopup(popupAdd);
 }
-
-const elements = initialCards.map(function(el) {
-  return createCard(el);
-})
-
-cardsContainer.append(...elements)
 
 buttonEdit.addEventListener('click', () => {
   openPropfilePopup(popupEdit);
@@ -147,3 +145,5 @@ galleryCloseButton.addEventListener('click', () => {
 });
 formElement.addEventListener('submit', formSubmitHandler);
 cardFormAdd.addEventListener('submit', formSubmitAddHandler);
+
+export { openPopup };
