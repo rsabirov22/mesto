@@ -1,4 +1,4 @@
-import { openPopup, gallery, galleryImg, gallerydescr } from './index.js'
+import * as sharedData from './shared.js';
 
 class Card {
   constructor(data, cardSelector) {
@@ -40,13 +40,14 @@ class Card {
 
     this._element.querySelector('.element__del').addEventListener('click', () => {
       this._element.remove();
+      this._element = null;
     });
 
     this._element.querySelector('.element__image').addEventListener('click', (e) => {
-      galleryImg.src = this._image;
-      gallerydescr.textContent = this._title;
+      sharedData.galleryImg.src = this._image;
+      sharedData.gallerydescr.textContent = this._title;
 
-      openPopup(gallery);
+      sharedData.openPopup(sharedData.gallery);
     });
   }
 

@@ -76,10 +76,6 @@ _setEventListeners() {
     // Найдём в текущей форме кнопку отправки
   const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
-  if (this._formElement.className === 'popup__form popup__form_add-card') {
-    this._toggleButtonState(inputList, buttonElement);
-  }
-
   // Обойдём все элементы полученной коллекции
   inputList.forEach((inputElement) => {
     // каждому полю добавим обработчик события input
