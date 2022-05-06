@@ -58,7 +58,7 @@ function openPropfilePopup(popupEdit) {
 }
 
 function openAddCardPopup(popupAdd) {
-  validatorAddCardForm._toggleButtonState(inputListAddCard, buttonElementAddCard);
+  validatorAddCardForm.toggleButtonState(inputListAddCard, buttonElementAddCard);
 
   sharedData.openPopup(popupAdd);
 }
