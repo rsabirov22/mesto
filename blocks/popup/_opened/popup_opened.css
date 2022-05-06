@@ -1,4 +1,4 @@
 .popup_opened {
-  height: auto;
+  visibility: visible;
   opacity: 1;
 }
