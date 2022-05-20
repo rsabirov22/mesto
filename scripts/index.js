@@ -1,109 +1,127 @@
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import { initialCards } from './cards.js';
-import * as sharedData from './shared.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import * as sharedData from '../utils/constants.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import Popup from '../components/Popup.js';
 
-const container = document.querySelector('.content');
-const cardsContainer = document.querySelector('.elements');
-const galleryCloseButton = sharedData.gallery.querySelector('.gallery__close-btn');
-const buttonEdit = container.querySelector('.profile__edit-button');
-const buttonAdd = container.querySelector('.profile__add-button');
-const popupEdit = document.querySelector('.popup_edit');
-const popupAdd = document.querySelector('.popup_add');
-const popupEditCloseButton = popupEdit.querySelector('.popup_edit .popup__close-btn');
-const popupAddCloseButton = popupAdd.querySelector('.popup_add .popup__close-btn');
-const formEditProfile = popupEdit.querySelector('.popup__form');
-const formAddCard = popupAdd.querySelector('.popup__form_add-card');
-const profileName = container.querySelector('.profile__name');
-const profileJob = container.querySelector('.profile__description');
-const nameInput = popupEdit.querySelector('#nickname');
-const jobInput = popupEdit.querySelector('#job');
-const mestoNameInput = popupAdd.querySelector('#card-name');
-const mestoImgLink = popupAdd.querySelector('#img-link');
-const config = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
-const inputListAddCard = Array.from(formAddCard.querySelectorAll(config.inputSelector));
-const buttonElementAddCard = popupAdd.querySelector('#add-submit');
-const validatorEditForm = new FormValidator(config, formEditProfile);
-const validatorAddCardForm = new FormValidator(config, formAddCard);
+const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
+const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
+const galleryClose = new Popup(sharedData.gallery);
+const popupCard = new PopupWithImage(sharedData.gallery);
+const popupEdit = new PopupWithForm(sharedData.popupEdit);
+const popupAdd = new PopupWithForm(sharedData.popupAdd);
 
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
 
-function createCardObject(item) {
-  // Создадим экземпляр карточки
-  const card = new Card(item, '#card');
-  // Создаём карточку и возвращаем наружу
-  const cardElement = card.generateCard();
+// выводим на страницу первоначальный набор карточек
+const cardsList = new Section({
+  items: sharedData.initialCards,
+  renderer: (cardItem) => {
+    const card = new Card(
+          cardItem,
+          '#card',
+          function handleCardClick(url, text) {
+            popupCard.open(url, text, sharedData.gallery);
+          }
+    );
+    return card.generateCard();
+  }
+},
+sharedData.cardsContainer
+);
 
-  return cardElement;
-};
+cardsList.renderItems();
+galleryClose.setEventListeners();
+// выводим на страницу первоначальный набор карточек
 
-initialCards.forEach((item) => {
-  // Добавляем в DOM
-  cardsContainer.append(createCardObject(item));
-});
 
-function openPropfilePopup(popupEdit) {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
 
-  sharedData.openPopup(popupEdit);
-}
 
-function openAddCardPopup(popupAdd) {
-  validatorAddCardForm.toggleButtonState(inputListAddCard, buttonElementAddCard);
 
-  sharedData.openPopup(popupAdd);
-}
 
-function handleFormSubmit (evt) {
-  evt.preventDefault();
 
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
 
-  sharedData.closePopup(popupEdit);
 
-}
 
-const handleFormSubmitAdd = (event) => {
-  event.preventDefault();
 
-  const newCard = {name: null, link: null};
 
-  newCard.name = mestoNameInput.value;
-  newCard.link = mestoImgLink.value;
 
-  cardsContainer.prepend(createCardObject(newCard));
 
-  mestoNameInput.value = '';
-  mestoImgLink.value = '';
 
-  sharedData.closePopup(popupAdd);
-}
 
-buttonEdit.addEventListener('click', () => {
-  openPropfilePopup(popupEdit);
-});
-buttonAdd.addEventListener('click', () => {
-  openAddCardPopup(popupAdd);
-});
-popupEditCloseButton.addEventListener('click', () => {
-  sharedData.closePopup(popupEdit);
-});
-popupAddCloseButton.addEventListener('click', () => {
-  sharedData.closePopup(popupAdd);
-});
-galleryCloseButton.addEventListener('click', () => {
-  sharedData.closePopup(sharedData.gallery);
-});
-formEditProfile.addEventListener('submit', handleFormSubmit);
-formAddCard.addEventListener('submit', handleFormSubmitAdd);
+
+
+// function createCardObject(item) {
+//   // Создадим экземпляр карточки
+//   const card = new Card(item, '#card');
+//   // Создаём карточку и возвращаем наружу
+//   const cardElement = card.generateCard();
+
+//   return cardElement;
+// };
+
+// sharedData.initialCards.forEach((item) => {
+//   // Добавляем в DOM
+//   sharedData.cardsContainer.append(createCardObject(item));
+// });
+
+// function openPropfilePopup(popupEdit) {
+//   sharedData.nameInput.value = sharedData.profileName.textContent;
+//   sharedData.jobInput.value = sharedData.profileJob.textContent;
+
+//   openPopup(sharedData.popupEdit);
+// }
+
+// function openAddCardPopup(popupAdd) {
+//   validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
+
+//   openPopup(sharedData.popupAdd);
+// }
+
+// function handleFormSubmit (evt) {
+//   evt.preventDefault();
+
+//   sharedData.profileName.textContent = sharedData.nameInput.value;
+//   sharedData.profileJob.textContent = sharedData.jobInput.value;
+
+//   closePopup(sharedData.popupEdit);
+
+// }
+
+// const handleFormSubmitAdd = (event) => {
+//   event.preventDefault();
+
+//   const newCard = {name: null, link: null};
+
+//   newCard.name = mestoNameInput.value;
+//   newCard.link = mestoImgLink.value;
+
+//   cardsContainer.prepend(createCardObject(newCard));
+
+//   mestoNameInput.value = '';
+//   mestoImgLink.value = '';
+
+//   closePopup(sharedData.popupAdd);
+// }
+
+// sharedData.buttonEdit.addEventListener('click', () => {
+//   openPropfilePopup(sharedData.popupEdit);
+// });
+// sharedData.buttonAdd.addEventListener('click', () => {
+//   openAddCardPopup(sharedData.popupAdd);
+// });
+// sharedData.popupEditCloseButton.addEventListener('click', () => {
+//   closePopup(sharedData.popupEdit);
+// });
+// sharedData.popupAddCloseButton.addEventListener('click', () => {
+//   closePopup(sharedData.popupAdd);
+// });
+// sharedData.galleryCloseButton.addEventListener('click', () => {
+//   closePopup(sharedData.gallery);
+// });
+// sharedData.formEditProfile.addEventListener('submit', handleFormSubmit);
+// sharedData.formAddCard.addEventListener('submit', handleFormSubmitAdd);
 

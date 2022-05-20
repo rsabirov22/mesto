@@ -1,7 +1,3 @@
-export const gallery = document.querySelector('.gallery');
-export const galleryImg = gallery.querySelector('.gallery__img');
-export const gallerydescr = gallery.querySelector('.gallery__description');
-
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
 
