@@ -5,13 +5,27 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import Popup from '../components/Popup.js';
+import UserInfo from '../components/UserInfo.js';
 
 const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
 const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
 const galleryClose = new Popup(sharedData.gallery);
+const popupClose = new Popup(sharedData.popup);
+const popupAddOpen = new Popup(sharedData.popupAdd);
+const popupEditOPen = new Popup(sharedData.popupEdit);
 const popupCard = new PopupWithImage(sharedData.gallery);
-const popupEdit = new PopupWithForm(sharedData.popupEdit);
-const popupAdd = new PopupWithForm(sharedData.popupAdd);
+const userInfo = new UserInfo({ profileName:sharedData.profileName, profileJob: sharedData.profileJob });
+const popupEdit = new PopupWithForm(
+      sharedData.popupEdit,
+      function handleFormEditSubmit(data, evt) {
+        userInfo.setUserInfo(data);
+        popupEdit.close();
+      });
+const popupAdd = new PopupWithForm(
+      sharedData.popupAdd,
+      function handleFormAddSubmit(data) {
+
+      });
 
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
@@ -34,15 +48,20 @@ sharedData.cardsContainer
 );
 
 cardsList.renderItems();
-galleryClose.setEventListeners();
 // выводим на страницу первоначальный набор карточек
 
+galleryClose.setEventListeners();
+popupClose.setEventListeners();
+sharedData.buttonEdit.addEventListener('click', () => {
+  popupEditOPen.open();
+});
+sharedData.buttonAdd.addEventListener('click', () => {
+  popupAddOpen.open();
+});
+popupEdit.setEventListeners();
+popupAdd.setEventListeners();
 
-
-
-
-
-
+// popupEdit._getInputValues();
 
 
 

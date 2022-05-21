@@ -1,5 +1,4 @@
 import Popup from './Popup.js';
-import Card from './Card.js';
 import { galleryImg, gallerydescr } from '../utils/constants.js';
 
 export default class PopupWithImage extends Popup {
@@ -12,11 +11,5 @@ export default class PopupWithImage extends Popup {
 
     galleryImg.src = url;
     gallerydescr.textContent = text;
-  }
-
-  close() {
-    super.close();
-
-    galleryImg.src = '';
   }
 }

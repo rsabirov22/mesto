@@ -1,42 +1,41 @@
-import { popupEditCloseButton,
-         popupAddCloseButton,
+import { popupCloseButton,
          galleryCloseButton } from '../utils/constants.js';
 
 export default class Popup {
   constructor(popupSelector) {
     this._selector = popupSelector;
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._handleClickOutsideClose = this._handleClickOutsideClose.bind(this);
   }
 
   open() {
     this._selector.classList.add('popup_opened');
+
+    document.addEventListener('keydown', this._handleEscClose);
+    this._selector.addEventListener('click', this._handleClickOutsideClose);
   }
 
   close() {
     this._selector.classList.remove('popup_opened');
+
+    document.removeEventListener('keydown', this._handleEscClose);
+    this._selector.removeEventListener('click', this._handleClickOutsideClose);
   }
 
-  _handleEscClose() {
+  _handleEscClose(evt) {
     if (evt.key === 'Escape') {
-      const popup = document.querySelector('.popup_opened');
-
       this.close();
     }
   }
 
   _handleClickOutsideClose (evt) {
-    const popup = evt.currentTarget;
-
     if (evt.target === evt.currentTarget) {
       this.close();
     }
   }
 
   setEventListeners() {
-    popupEditCloseButton.addEventListener('click', () => {
-      this.close();
-    });
-
-    popupAddCloseButton.addEventListener('click', () => {
+    popupCloseButton.addEventListener('click', () => {
       this.close();
     });
 

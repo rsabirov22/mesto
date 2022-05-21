@@ -1,8 +1,3 @@
-import * as sharedData from '../utils/constants.js';
-import {
-  openPopup
-} from '../utils/utils.js';
-
 class Card {
   constructor(data, cardSelector, handleCardClick) {
     this._title = data.name;
