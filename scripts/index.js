@@ -10,22 +10,33 @@ import UserInfo from '../components/UserInfo.js';
 const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
 const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
 const galleryClose = new Popup(sharedData.gallery);
-const popupClose = new Popup(sharedData.popup);
+// const popupClose = new Popup(sharedData.popup);
 const popupAddOpen = new Popup(sharedData.popupAdd);
 const popupEditOPen = new Popup(sharedData.popupEdit);
 const popupCard = new PopupWithImage(sharedData.gallery);
 const userInfo = new UserInfo({ profileName:sharedData.profileName, profileJob: sharedData.profileJob });
 const popupEdit = new PopupWithForm(
       sharedData.popupEdit,
-      function handleFormEditSubmit(data, evt) {
+      function handleFormEditSubmit(data) {
         userInfo.setUserInfo(data);
         popupEdit.close();
       });
 const popupAdd = new PopupWithForm(
       sharedData.popupAdd,
       function handleFormAddSubmit(data) {
+        const newCard = new Card(
+              data,
+              '#card',
+              function handleCardClick(url, text) {
+                popupCard.open(url, text, sharedData.gallery);
+              }
+        );
+        const cardCreated = newCard.generateCard();
+        const cardsContainer = sharedData.container.querySelector(sharedData.cardsContainer);
 
-      });
+        cardsContainer.prepend(cardCreated);
+        popupAdd.close();
+});
 
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
@@ -51,17 +62,24 @@ cardsList.renderItems();
 // выводим на страницу первоначальный набор карточек
 
 galleryClose.setEventListeners();
-popupClose.setEventListeners();
 sharedData.buttonEdit.addEventListener('click', () => {
+  const data = userInfo.getUserInfo();
+
+  sharedData.nameInput.value = data.name;
+  sharedData.jobInput.value = data.description;
+
   popupEditOPen.open();
 });
 sharedData.buttonAdd.addEventListener('click', () => {
+  validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
+
   popupAddOpen.open();
 });
 popupEdit.setEventListeners();
 popupAdd.setEventListeners();
 
-// popupEdit._getInputValues();
+
+// popupAdd._getInputValues();
 
 
 
