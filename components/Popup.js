@@ -1,11 +1,10 @@
-import { popupCloseButton,
-         galleryCloseButton } from '../utils/constants.js';
-
 export default class Popup {
   constructor(popupSelector) {
     this._selector = popupSelector;
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleClickOutsideClose = this._handleClickOutsideClose.bind(this);
+    this._popupCloseBtn = this._selector.querySelector('.popup__close-btn');
+    this._galleryCloseBtn = this._selector.querySelector('.gallery__close-btn');
   }
 
   open() {
@@ -35,14 +34,14 @@ export default class Popup {
   }
 
   setEventListeners() {
-    // console.log(popupCloseButton)
-
-    popupCloseButton.addEventListener('click', () => {
-      this.close();
-    });
-
-    galleryCloseButton.addEventListener('click', () => {
-      this.close();
-    });
+    if (this._selector.contains(this._popupCloseBtn)) {
+      this._popupCloseBtn.addEventListener('click', () => {
+        this.close();
+      });
+    } else if (this._selector.contains(this._galleryCloseBtn)) {
+      this._galleryCloseBtn.addEventListener('click', () => {
+        this.close();
+      });
+    }
   }
 }

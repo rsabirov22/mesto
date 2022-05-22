@@ -9,19 +9,18 @@ import UserInfo from '../components/UserInfo.js';
 
 const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
 const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
-const galleryClose = new Popup(sharedData.gallery);
-// const popupClose = new Popup(sharedData.popup);
-const popupAddOpen = new Popup(sharedData.popupAdd);
-const popupEditOPen = new Popup(sharedData.popupEdit);
+const popupAdd = new Popup(sharedData.popupAdd);
+const popupEdit = new Popup(sharedData.popupEdit);
+const popupGallery = new Popup(sharedData.gallery);
 const popupCard = new PopupWithImage(sharedData.gallery);
 const userInfo = new UserInfo({ profileName:sharedData.profileName, profileJob: sharedData.profileJob });
-const popupEdit = new PopupWithForm(
+const popupEditForm = new PopupWithForm(
       sharedData.popupEdit,
       function handleFormEditSubmit(data) {
         userInfo.setUserInfo(data);
-        popupEdit.close();
+        popupEditForm.close();
       });
-const popupAdd = new PopupWithForm(
+const popupAddForm = new PopupWithForm(
       sharedData.popupAdd,
       function handleFormAddSubmit(data) {
         const newCard = new Card(
@@ -35,7 +34,7 @@ const popupAdd = new PopupWithForm(
         const cardsContainer = sharedData.container.querySelector(sharedData.cardsContainer);
 
         cardsContainer.prepend(cardCreated);
-        popupAdd.close();
+        popupAddForm.close();
 });
 
 validatorEditForm.enableValidation();
@@ -61,104 +60,19 @@ sharedData.cardsContainer
 cardsList.renderItems();
 // выводим на страницу первоначальный набор карточек
 
-galleryClose.setEventListeners();
 sharedData.buttonEdit.addEventListener('click', () => {
   const data = userInfo.getUserInfo();
 
   sharedData.nameInput.value = data.name;
   sharedData.jobInput.value = data.description;
 
-  popupEditOPen.open();
+  popupEdit.open();
 });
 sharedData.buttonAdd.addEventListener('click', () => {
   validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
 
-  popupAddOpen.open();
+  popupAdd.open();
 });
-popupEdit.setEventListeners();
-popupAdd.setEventListeners();
-
-
-// popupAdd._getInputValues();
-
-
-
-
-
-
-
-
-
-
-
-// function createCardObject(item) {
-//   // Создадим экземпляр карточки
-//   const card = new Card(item, '#card');
-//   // Создаём карточку и возвращаем наружу
-//   const cardElement = card.generateCard();
-
-//   return cardElement;
-// };
-
-// sharedData.initialCards.forEach((item) => {
-//   // Добавляем в DOM
-//   sharedData.cardsContainer.append(createCardObject(item));
-// });
-
-// function openPropfilePopup(popupEdit) {
-//   sharedData.nameInput.value = sharedData.profileName.textContent;
-//   sharedData.jobInput.value = sharedData.profileJob.textContent;
-
-//   openPopup(sharedData.popupEdit);
-// }
-
-// function openAddCardPopup(popupAdd) {
-//   validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
-
-//   openPopup(sharedData.popupAdd);
-// }
-
-// function handleFormSubmit (evt) {
-//   evt.preventDefault();
-
-//   sharedData.profileName.textContent = sharedData.nameInput.value;
-//   sharedData.profileJob.textContent = sharedData.jobInput.value;
-
-//   closePopup(sharedData.popupEdit);
-
-// }
-
-// const handleFormSubmitAdd = (event) => {
-//   event.preventDefault();
-
-//   const newCard = {name: null, link: null};
-
-//   newCard.name = mestoNameInput.value;
-//   newCard.link = mestoImgLink.value;
-
-//   cardsContainer.prepend(createCardObject(newCard));
-
-//   mestoNameInput.value = '';
-//   mestoImgLink.value = '';
-
-//   closePopup(sharedData.popupAdd);
-// }
-
-// sharedData.buttonEdit.addEventListener('click', () => {
-//   openPropfilePopup(sharedData.popupEdit);
-// });
-// sharedData.buttonAdd.addEventListener('click', () => {
-//   openAddCardPopup(sharedData.popupAdd);
-// });
-// sharedData.popupEditCloseButton.addEventListener('click', () => {
-//   closePopup(sharedData.popupEdit);
-// });
-// sharedData.popupAddCloseButton.addEventListener('click', () => {
-//   closePopup(sharedData.popupAdd);
-// });
-// sharedData.galleryCloseButton.addEventListener('click', () => {
-//   closePopup(sharedData.gallery);
-// });
-// sharedData.formEditProfile.addEventListener('submit', handleFormSubmit);
-// sharedData.formAddCard.addEventListener('submit', handleFormSubmitAdd);
-
+popupGallery.setEventListeners();
+popupEditForm.setEventListeners();
+popupAddForm.setEventListeners();
