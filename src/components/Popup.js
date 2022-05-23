@@ -1,24 +1,25 @@
 export default class Popup {
   constructor(popupSelector) {
     this._selector = popupSelector;
+    this._popup = document.querySelector(this._selector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleClickOutsideClose = this._handleClickOutsideClose.bind(this);
-    this._popupCloseBtn = this._selector.querySelector('.popup__close-btn');
-    this._galleryCloseBtn = this._selector.querySelector('.gallery__close-btn');
+    this._popupCloseBtn = this._popup.querySelector('.popup__close-btn');
+    this._galleryCloseBtn = this._popup.querySelector('.gallery__close-btn');
   }
 
   open() {
-    this._selector.classList.add('popup_opened');
+    this._popup.classList.add('popup_opened');
 
     document.addEventListener('keydown', this._handleEscClose);
-    this._selector.addEventListener('click', this._handleClickOutsideClose);
+    this._popup.addEventListener('click', this._handleClickOutsideClose);
   }
 
   close() {
-    this._selector.classList.remove('popup_opened');
+    this._popup.classList.remove('popup_opened');
 
     document.removeEventListener('keydown', this._handleEscClose);
-    this._selector.removeEventListener('click', this._handleClickOutsideClose);
+    this._popup.removeEventListener('click', this._handleClickOutsideClose);
   }
 
   _handleEscClose(evt) {
@@ -34,11 +35,11 @@ export default class Popup {
   }
 
   setEventListeners() {
-    if (this._selector.contains(this._popupCloseBtn)) {
+    if (this._popup.contains(this._popupCloseBtn)) {
       this._popupCloseBtn.addEventListener('click', () => {
         this.close();
       });
-    } else if (this._selector.contains(this._galleryCloseBtn)) {
+    } else if (this._popup.contains(this._galleryCloseBtn)) {
       this._galleryCloseBtn.addEventListener('click', () => {
         this.close();
       });

@@ -6,30 +6,29 @@ import * as sharedData from '../utils/constants.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
-import Popup from '../components/Popup.js';
 import UserInfo from '../components/UserInfo.js';
 
 const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
 const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
-const popupAdd = new Popup(sharedData.popupAdd);
-const popupEdit = new Popup(sharedData.popupEdit);
-const popupGallery = new Popup(sharedData.gallery);
-const popupCard = new PopupWithImage(sharedData.gallery);
-const userInfo = new UserInfo({ profileName:sharedData.profileName, profileJob: sharedData.profileJob });
+const popupWithImage = new PopupWithImage('.gallery');
+const userInfo = new UserInfo({
+      profileName: '.profile__name',
+      profileJob: '.profile__description'
+});
 const popupEditForm = new PopupWithForm(
-      sharedData.popupEdit,
+      '.popup_edit',
       function handleFormEditSubmit(data) {
         userInfo.setUserInfo(data);
         popupEditForm.close();
       });
 const popupAddForm = new PopupWithForm(
-      sharedData.popupAdd,
+      '.popup_add',
       function handleFormAddSubmit(data) {
         const newCard = new Card(
               data,
               '#card',
               function handleCardClick(url, text) {
-                popupCard.open(url, text, sharedData.gallery);
+                popupWithImage.open(url, text);
               }
         );
         const cardCreated = newCard.generateCard();
@@ -50,10 +49,11 @@ const cardsList = new Section({
           cardItem,
           '#card',
           function handleCardClick(url, text) {
-            popupCard.open(url, text, sharedData.gallery);
+            popupWithImage.open(url, text);
           }
     );
-    return card.generateCard();
+    const cardGenerated = card.generateCard();
+    cardsList.addItem(cardGenerated);
   }
 },
 sharedData.cardsContainer
@@ -68,13 +68,13 @@ sharedData.buttonEdit.addEventListener('click', () => {
   sharedData.nameInput.value = data.name;
   sharedData.jobInput.value = data.description;
 
-  popupEdit.open();
+  popupEditForm.open();
 });
 sharedData.buttonAdd.addEventListener('click', () => {
   validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
 
-  popupAdd.open();
+  popupAddForm.open();
 });
-popupGallery.setEventListeners();
+popupWithImage.setEventListeners();
 popupEditForm.setEventListeners();
 popupAddForm.setEventListeners();

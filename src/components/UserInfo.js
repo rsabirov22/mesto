@@ -1,7 +1,9 @@
+import { container } from '../utils/constants.js'
+
 export default class UserInfo {
   constructor({ profileName, profileJob }) {
-    this._profileName = profileName;
-    this._profileJob = profileJob;
+    this._profileName = container.querySelector(profileName);
+    this._profileJob = container.querySelector(profileJob);
 	}
 
   getUserInfo() {

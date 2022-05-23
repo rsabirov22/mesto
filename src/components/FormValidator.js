@@ -7,6 +7,8 @@ class FormValidator {
     this._inputErrorClass = settings.inputErrorClass;
     this._errorClass = settings.errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   // Добавляет на инпуты класс с ошибкой
@@ -70,33 +72,21 @@ toggleButtonState(inputList, buttonElement) {
 
 // Отслеживаем изменения в инпутах
 _setEventListeners() {
-  // Находим все поля внутри формы,
-  // сделаем из них массив методом Array.from
-  const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    // Найдём в текущей форме кнопку отправки
-  const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-
   // Обойдём все элементы полученной коллекции
-  inputList.forEach((inputElement) => {
+  this._inputList.forEach((inputElement) => {
     // каждому полю добавим обработчик события input
     inputElement.addEventListener('input', () => {
       // Внутри колбэка вызовем isValid,
       // передав ей форму и проверяемый элемент
       this._isValid(inputElement)
       // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-      this.toggleButtonState(inputList, buttonElement);
+      this.toggleButtonState(this._inputList, this._buttonElement);
     });
   });
 };
 
 enableValidation() {
-
-  this._formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
-
   this._setEventListeners();
-
 };
 
 }
