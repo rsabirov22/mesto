@@ -44,6 +44,4 @@ export const config = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
-export const inputListAddCard = Array.from(formAddCard.querySelectorAll(config.inputSelector));
-export const buttonElementAddCard = popupAdd.querySelector('#add-submit');
 

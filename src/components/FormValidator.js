@@ -57,16 +57,16 @@ _hasInvalidInput(inputList) {
 
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
-toggleButtonState(inputList, buttonElement) {
+toggleButtonState() {
   // Если есть хотя бы один невалидный инпут
-  if (this._hasInvalidInput(inputList)) {
+  if (this._hasInvalidInput(this._inputList)) {
     // сделай кнопку неактивной
-    buttonElement.classList.add(this._inactiveButtonClass);
-    buttonElement.setAttribute('disabled', 'disabled');
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', 'disabled');
   } else {
     // иначе сделай кнопку активной
-    buttonElement.classList.remove(this._inactiveButtonClass);
-    buttonElement.removeAttribute('disabled', 'disabled');
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.removeAttribute('disabled', 'disabled');
   }
 };
 
@@ -80,10 +80,16 @@ _setEventListeners() {
       // передав ей форму и проверяемый элемент
       this._isValid(inputElement)
       // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-      this.toggleButtonState(this._inputList, this._buttonElement);
+      this.toggleButtonState();
     });
   });
 };
+
+resetErrors() {
+  this._inputList.forEach((inputElement) => {
+    this._hideInputError(inputElement);
+  });
+}
 
 enableValidation() {
   this._setEventListeners();

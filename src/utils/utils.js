@@ -1,0 +1,13 @@
+import Card from '../components/Card.js';
+
+export function getCard(data, popupWithImage) {
+  const card = new Card(
+    data,
+    '#card',
+    function handleCardClick(url, text) {
+      popupWithImage.open(url, text);
+    }
+  );
+
+  return card.generateCard();
+}

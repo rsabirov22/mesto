@@ -1,8 +1,8 @@
 import './index.css';
 
-import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import * as sharedData from '../utils/constants.js';
+import { getCard } from '../utils/utils.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -24,17 +24,10 @@ const popupEditForm = new PopupWithForm(
 const popupAddForm = new PopupWithForm(
       '.popup_add',
       function handleFormAddSubmit(data) {
-        const newCard = new Card(
-              data,
-              '#card',
-              function handleCardClick(url, text) {
-                popupWithImage.open(url, text);
-              }
-        );
-        const cardCreated = newCard.generateCard();
-        const cardsContainer = sharedData.container.querySelector(sharedData.cardsContainer);
+        const cardGenerated = getCard(data, popupWithImage);
 
-        cardsContainer.prepend(cardCreated);
+        cardsList.addItem(cardGenerated);
+
         popupAddForm.close();
 });
 
@@ -45,14 +38,7 @@ validatorAddCardForm.enableValidation();
 const cardsList = new Section({
   items: sharedData.initialCards,
   renderer: (cardItem) => {
-    const card = new Card(
-          cardItem,
-          '#card',
-          function handleCardClick(url, text) {
-            popupWithImage.open(url, text);
-          }
-    );
-    const cardGenerated = card.generateCard();
+    const cardGenerated = getCard(cardItem, popupWithImage);
     cardsList.addItem(cardGenerated);
   }
 },
@@ -63,6 +49,7 @@ cardsList.renderItems();
 // выводим на страницу первоначальный набор карточек
 
 sharedData.buttonEdit.addEventListener('click', () => {
+  validatorEditForm.resetErrors();
   const data = userInfo.getUserInfo();
 
   sharedData.nameInput.value = data.name;
@@ -71,7 +58,8 @@ sharedData.buttonEdit.addEventListener('click', () => {
   popupEditForm.open();
 });
 sharedData.buttonAdd.addEventListener('click', () => {
-  validatorAddCardForm.toggleButtonState(sharedData.inputListAddCard, sharedData.buttonElementAddCard);
+  validatorAddCardForm.resetErrors();
+  validatorAddCardForm.toggleButtonState();
 
   popupAddForm.open();
 });
