@@ -17,7 +17,9 @@
     <!-- Content -->
     <main class="content">
       <section class="profile">
-        <img src="<%=require('./images/avatar.jpg')%>" alt="аватар" class="profile__avatar">
+        <div class="profile__avatar-container">
+          <img src="<%=require('./images/avatar.jpg')%>" alt="аватар" class="profile__avatar">
+        </div>
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
@@ -41,7 +43,10 @@
       <img class="element__image" src="#" alt="#">
       <div class="element__description">
         <p class="element__title"></p>
-        <button type="button" aria-label="Лайк" class="element__btn"></button>
+        <div class="element__likes">
+          <button type="button" aria-label="Лайк" class="element__btn"></button>
+          <span class="element__counter">2</span>
+        </div>
       </div>
       <button type="button" aria-label="Удалить" class="element__del"></button>
     </div>
@@ -146,6 +151,66 @@
     </div>
   </div>
   <!-- Popup add -->
+
+  <!-- Popup confirm -->
+  <div class="popup popup_confirm">
+    <div class="popup__container">
+      <form class="popup__form popup__form_confirm" name="confirm" novalidate>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button
+          type="submit"
+          id="confirm-submit"
+          class="popup__button"
+        >
+          Да
+        </button>
+      </form>
+      <button
+        type="button"
+        aria-label="Закрыть"
+        id="add-close"
+        class="popup__close-btn"
+      ></button>
+    </div>
+  </div>
+  <!-- Popup confirm -->
+
+  <!-- Popup change avatar -->
+  <div class="popup popup_avatar">
+    <div class="popup__container">
+      <form class="popup__form popup__form_change-avatar" name="change-avatar" novalidate>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <label class="popup__field">
+          <input
+            type="url"
+            class="popup__input"
+            id="avatar-url"
+            name="avatar"
+            placeholder="Ссылка на картинку"
+            minlength="2"
+            maxlength="30"
+            required
+            autocomplete="off"
+          >
+          <span id="avatar-url-error" class="popup__error"></span>
+        </label>
+        <button
+          type="submit"
+          id="avatar-submit"
+          class="popup__button"
+        >
+          Сохранить
+        </button>
+      </form>
+      <button
+        type="button"
+        aria-label="Закрыть"
+        id="add-close"
+        class="popup__close-btn"
+      ></button>
+    </div>
+  </div>
+  <!-- Popup change avatar -->
 
   <!-- Popup gallery -->
   <div class="gallery">
