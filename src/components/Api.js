@@ -49,4 +49,16 @@ export default class Api {
     })
     .then(handleResponse);
   }
+
+  patchAvatar(data) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(handleResponse);
+  }
 }

@@ -24,7 +24,8 @@ const validatorChangeAvatarForm = new FormValidator(sharedData.config, sharedDat
 const popupWithImage = new PopupWithImage('.gallery');
 const userInfo = new UserInfo({
       profileName: '.profile__name',
-      profileJob: '.profile__description'
+      profileJob: '.profile__description',
+      profileAvatar: '.profile__avatar'
 });
 const popupEditForm = new PopupWithForm(
       '.popup_edit',
@@ -63,7 +64,8 @@ const popupAddForm = new PopupWithForm(
 const popupChangeAvatar = new PopupWithForm(
       '.popup_avatar',
       function handleFormChangeAvatarSubmit(data) {
-        console.log(data);
+        api.patchAvatar(data)
+        .catch(err => console.log(err));
 
       popupChangeAvatar.close();
 });
