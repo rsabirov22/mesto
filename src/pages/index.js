@@ -52,7 +52,7 @@ const popupAddForm = new PopupWithForm(
       function handleFormAddSubmit(data) {
         api.postCard(data)
           .then((card) => {
-            const cardGenerated = getCard(card, popupWithImage);
+            const cardGenerated = getCard(card, popupWithImage, api);
 
             cardsList.addItem(cardGenerated);
           })
@@ -70,6 +70,19 @@ const popupChangeAvatar = new PopupWithForm(
       popupChangeAvatar.close();
 });
 
+const popupConfirmDelete = new PopupWithForm(
+  '.popup_confirm',
+  function handleFormConfirmSubmit(data) {
+    api.patchAvatar(data)
+    .catch(err => console.log(err));
+
+  popupChangeAvatar.close();
+});
+
+
+
+
+
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
 validatorChangeAvatarForm.enableValidation();
@@ -80,7 +93,7 @@ api.getInitialCards()
     const cardsList = new Section({
       items: data,
       renderer: (cardItem) => {
-        const cardGenerated = getCard(cardItem, popupWithImage);
+        const cardGenerated = getCard(cardItem, popupWithImage, api);
         cardsList.addItem(cardGenerated);
       }
     },
@@ -121,3 +134,4 @@ popupWithImage.setEventListeners();
 popupEditForm.setEventListeners();
 popupAddForm.setEventListeners();
 popupChangeAvatar.setEventListeners();
+popupConfirmDelete.setEventListeners();
