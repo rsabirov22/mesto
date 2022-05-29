@@ -42,22 +42,6 @@ api.getProfile()
   })
   .catch(err => console.log(err));
 // Загрузка информации о пользователе
-
-// Добавление карточки на сервер
-// const popupAddForm = new PopupWithForm(
-//       '.popup_add',
-//       function handleFormAddSubmit(data) {
-//         api.postCard(data)
-//           .then((card) => {
-//             const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
-
-//             cardsList.addItem(cardGenerated);
-//           })
-//           .catch(err => console.log(err));
-
-//         popupAddForm.close();
-// });
-// Добавление карточки на сервер
 const popupChangeAvatar = new PopupWithForm(
       '.popup_avatar',
       function handleFormChangeAvatarSubmit(data) {
@@ -69,9 +53,7 @@ const popupChangeAvatar = new PopupWithForm(
 
 const popupConfirmDelete = new PopupWithForm(
   '.popup_confirm',
-  function handleFormConfirmSubmit(data) {
-    console.log(data)
-
+  function handleFormConfirmSubmit() {
     popupConfirmDelete.close();
 });
 
@@ -133,12 +115,6 @@ sharedData.buttonEdit.addEventListener('click', () => {
 
   popupEditForm.open();
 });
-// sharedData.buttonAdd.addEventListener('click', () => {
-//   validatorAddCardForm.resetErrors();
-//   validatorAddCardForm.toggleButtonState();
-
-//   popupAddForm.open();
-// });
 sharedData.changeAvatarContainer.addEventListener('click', () => {
   validatorChangeAvatarForm.resetErrors();
   validatorChangeAvatarForm.toggleButtonState();
@@ -148,6 +124,5 @@ sharedData.changeAvatarContainer.addEventListener('click', () => {
 
 popupWithImage.setEventListeners();
 popupEditForm.setEventListeners();
-// popupAddForm.setEventListeners();
 popupChangeAvatar.setEventListeners();
 popupConfirmDelete.setEventListeners();

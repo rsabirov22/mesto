@@ -1,12 +1,12 @@
 class Card {
-  constructor(data, cardSelector, handleCardClick, handlePutLike, handleDeleteLike, handlePopupDeleteOpen) {
+  constructor(data, cardSelector, handleCardClick, handlePutLike, handleDeleteLike, handleDeleteCard) {
     this._title = data.name;
     this._image = data.link;
     this._likes = data.likes.length;
     this._id = data._id;
     this._ownerId = data.owner._id;
     this._handleCardClick = handleCardClick;
-    this._handlePopupDeleteOpen = handlePopupDeleteOpen;
+    this._handleDeleteCard = handleDeleteCard;
     this._handlePutLike = handlePutLike;
     this._handleDeleteLike = handleDeleteLike;
     this._cardSelector = cardSelector;
@@ -52,9 +52,7 @@ class Card {
     });
 
     this._element.querySelector('.element__del').addEventListener('click', () => {
-      this._handlePopupDeleteOpen(this._id );
-      // this._element.remove();
-      // this._element = null;
+      this._handleDeleteCard(this._id, this._element);
     });
 
     this._element.querySelector('.element__image').addEventListener('click', (e) => {

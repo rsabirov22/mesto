@@ -1,4 +1,5 @@
 import Card from '../components/Card.js';
+import { confirmDeleteCardBtn } from './constants.js';
 
 export function getCard(data, popupWithImage, api, popupConfirmDelete) {
   const card = new Card(
@@ -21,9 +22,17 @@ export function getCard(data, popupWithImage, api, popupConfirmDelete) {
         })
         .catch(err => console.log(err));
     },
-    function handlePopupDeleteOpen(id) {
-      console.log(id)
+    function handleDeleteCard(id, element) {
       popupConfirmDelete.open();
+
+      confirmDeleteCardBtn.addEventListener('click', () => {
+        api.deleteCard(id)
+          .then(() => {
+            element.remove();
+            element = null;
+          })
+          .catch(err => console.log(err));
+      });
     }
   );
 
