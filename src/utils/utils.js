@@ -1,6 +1,6 @@
 import Card from '../components/Card.js';
 
-export function getCard(data, popupWithImage, api) {
+export function getCard(data, popupWithImage, api, popupConfirmDelete) {
   const card = new Card(
     data,
     '#card',
@@ -20,6 +20,10 @@ export function getCard(data, popupWithImage, api) {
           console.log(data);
         })
         .catch(err => console.log(err));
+    },
+    function handlePopupDeleteOpen(id) {
+      console.log(id)
+      popupConfirmDelete.open();
     }
   );
 

@@ -44,22 +44,19 @@ api.getProfile()
 // Загрузка информации о пользователе
 
 // Добавление карточки на сервер
+// const popupAddForm = new PopupWithForm(
+//       '.popup_add',
+//       function handleFormAddSubmit(data) {
+//         api.postCard(data)
+//           .then((card) => {
+//             const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
 
-// Где теперь взять cardsList?
+//             cardsList.addItem(cardGenerated);
+//           })
+//           .catch(err => console.log(err));
 
-const popupAddForm = new PopupWithForm(
-      '.popup_add',
-      function handleFormAddSubmit(data) {
-        api.postCard(data)
-          .then((card) => {
-            const cardGenerated = getCard(card, popupWithImage, api);
-
-            cardsList.addItem(cardGenerated);
-          })
-          .catch(err => console.log(err));
-
-        popupAddForm.close();
-});
+//         popupAddForm.close();
+// });
 // Добавление карточки на сервер
 const popupChangeAvatar = new PopupWithForm(
       '.popup_avatar',
@@ -73,15 +70,10 @@ const popupChangeAvatar = new PopupWithForm(
 const popupConfirmDelete = new PopupWithForm(
   '.popup_confirm',
   function handleFormConfirmSubmit(data) {
-    api.patchAvatar(data)
-    .catch(err => console.log(err));
+    console.log(data)
 
-  popupChangeAvatar.close();
+    popupConfirmDelete.close();
 });
-
-
-
-
 
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
@@ -93,7 +85,7 @@ api.getInitialCards()
     const cardsList = new Section({
       items: data,
       renderer: (cardItem) => {
-        const cardGenerated = getCard(cardItem, popupWithImage, api);
+        const cardGenerated = getCard(cardItem, popupWithImage, api, popupConfirmDelete);
         cardsList.addItem(cardGenerated);
       }
     },
@@ -101,6 +93,30 @@ api.getInitialCards()
     );
 
     cardsList.renderItems();
+
+    // Добавление карточки на сервер
+    const popupAddForm = new PopupWithForm(
+      '.popup_add',
+      function handleFormAddSubmit(data) {
+        api.postCard(data)
+          .then((card) => {
+            const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
+
+            cardsList.addItem(cardGenerated);
+          })
+          .catch(err => console.log(err));
+
+      popupAddForm.close();
+    });
+    // Добавление карточки на сервер
+    popupAddForm.setEventListeners();
+
+    sharedData.buttonAdd.addEventListener('click', () => {
+      validatorAddCardForm.resetErrors();
+      validatorAddCardForm.toggleButtonState();
+
+      popupAddForm.open();
+    });
   })
   .catch((err) => {
     console.log(err);
@@ -117,12 +133,12 @@ sharedData.buttonEdit.addEventListener('click', () => {
 
   popupEditForm.open();
 });
-sharedData.buttonAdd.addEventListener('click', () => {
-  validatorAddCardForm.resetErrors();
-  validatorAddCardForm.toggleButtonState();
+// sharedData.buttonAdd.addEventListener('click', () => {
+//   validatorAddCardForm.resetErrors();
+//   validatorAddCardForm.toggleButtonState();
 
-  popupAddForm.open();
-});
+//   popupAddForm.open();
+// });
 sharedData.changeAvatarContainer.addEventListener('click', () => {
   validatorChangeAvatarForm.resetErrors();
   validatorChangeAvatarForm.toggleButtonState();
@@ -132,6 +148,6 @@ sharedData.changeAvatarContainer.addEventListener('click', () => {
 
 popupWithImage.setEventListeners();
 popupEditForm.setEventListeners();
-popupAddForm.setEventListeners();
+// popupAddForm.setEventListeners();
 popupChangeAvatar.setEventListeners();
 popupConfirmDelete.setEventListeners();
