@@ -27,14 +27,6 @@ const userInfo = new UserInfo({
       profileJob: '.profile__description',
       profileAvatar: '.profile__avatar'
 });
-const popupEditForm = new PopupWithForm(
-      '.popup_edit',
-      function handleFormEditSubmit(data) {
-        api.patchProfile(data)
-          .catch(err => console.log(err));
-
-        popupEditForm.close();
-});
 // Загрузка информации о пользователе
 api.getProfile()
   .then((data) => {
@@ -42,13 +34,38 @@ api.getProfile()
   })
   .catch(err => console.log(err));
 // Загрузка информации о пользователе
+const popupEditForm = new PopupWithForm(
+      '.popup_edit',
+      function handleFormEditSubmit(data) {
+
+        popupEditForm.renderLoading(true);
+
+        api.patchProfile(data)
+          .then((data) => {
+            userInfo.setUserInfo(data);
+          })
+          .catch(err => console.log(err))
+          .finally(() => {
+            popupEditForm.renderLoading(false);
+            popupEditForm.close();
+          });
+});
+
 const popupChangeAvatar = new PopupWithForm(
       '.popup_avatar',
       function handleFormChangeAvatarSubmit(data) {
-        api.patchAvatar(data)
-        .catch(err => console.log(err));
 
-      popupChangeAvatar.close();
+        popupChangeAvatar.renderLoading(true);
+
+        api.patchAvatar(data)
+        .then((data) => {
+          userInfo.setUserInfo(data);
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          popupChangeAvatar.renderLoading(false);
+          popupChangeAvatar.close();
+        });
 });
 
 const popupConfirmDelete = new PopupWithForm(
@@ -80,17 +97,22 @@ api.getInitialCards()
     const popupAddForm = new PopupWithForm(
       '.popup_add',
       function handleFormAddSubmit(data) {
+
+        popupAddForm.renderLoading(true);
+
         api.postCard(data)
           .then((card) => {
             const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
 
             cardsList.addItem(cardGenerated);
           })
-          .catch(err => console.log(err));
-
-      popupAddForm.close();
+          .catch(err => console.log(err))
+          .finally(() => {
+            popupAddForm.renderLoading(false);
+            popupAddForm.close();
+          });
     });
-    // Добавление карточки на сервер
+
     popupAddForm.setEventListeners();
 
     sharedData.buttonAdd.addEventListener('click', () => {
@@ -99,6 +121,7 @@ api.getInitialCards()
 
       popupAddForm.open();
     });
+    // Добавление карточки на сервер
   })
   .catch((err) => {
     console.log(err);

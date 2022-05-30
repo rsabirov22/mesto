@@ -1,5 +1,4 @@
 import Card from '../components/Card.js';
-import { confirmDeleteCardBtn } from './constants.js';
 
 export function getCard(data, popupWithImage, api, popupConfirmDelete) {
   const card = new Card(

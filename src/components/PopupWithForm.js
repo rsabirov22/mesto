@@ -28,6 +28,24 @@ export default class PopupWithForm extends Popup {
     return data;
   }
 
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = 'Сохранение...';
+    } else {
+      switch (this._submitButton.getAttribute('id')) {
+        case 'add-submit':
+          this._submitButton.textContent = 'Создать';
+          break;
+        case 'edit-submit':
+          this._submitButton.textContent = 'Сохранить';
+          break;
+        case 'avatar-submit':
+          this._submitButton.textContent = 'Сохранить';
+          break;
+      }
+    }
+  }
+
   setEventListeners() {
     super.setEventListeners()
 
