@@ -23,15 +23,14 @@ export function getCard(data, popupWithImage, api, popupConfirmDelete) {
         .catch(err => console.log(err));
     },
     function handleDeleteCard(id, element) {
-      popupConfirmDelete.open();
-
-      confirmDeleteCardBtn.addEventListener('click', () => {
-        api.deleteCard(id)
-          .then(() => {
-            element.remove();
-            element = null;
-          })
-          .catch(err => console.log(err));
+      popupConfirmDelete.open()
+        .then(() => {
+          api.deleteCard(id)
+            .then(() => {
+              element.remove();
+              element = null;
+            })
+            .catch(err => console.log(err));
       });
     }
   );

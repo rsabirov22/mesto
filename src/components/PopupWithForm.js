@@ -9,7 +9,9 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._inputSelector = config.inputSelector;
     this._formSelector = config.formSelector;
+    this._submitButtonSelector = config.submitButtonSelector;
     this._form = this._popupWithForm.querySelector(this._formSelector);
+    this._submitButton = this._form.querySelector(this._submitButtonSelector);
     this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
 	}
 
@@ -36,6 +38,23 @@ export default class PopupWithForm extends Popup {
 
       this._handleFormSubmit(data);
     });
+  }
+
+  open() {
+    super.open();
+
+    const submitButton = this._submitButton;
+
+    if (this._popupSelector === '.popup_confirm') {
+
+      const newPromise = new Promise((resolve, reject) => {
+        submitButton.addEventListener('click', () => {
+          resolve('Нажата кнопка Да');
+        })
+      });
+
+      return newPromise;
+   }
   }
 
   close() {
