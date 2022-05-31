@@ -8,18 +8,10 @@ export function getCard(data, popupWithImage, api, popupConfirmDelete) {
       popupWithImage.open(url, text);
     },
     function handlePutLike(id) {
-      api.putLike(id)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch(err => console.log(err));
+      return api.putLike(id);
     },
     function handleDeleteLike(id) {
-      api.deleteLike(id)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch(err => console.log(err));
+      return api.deleteLike(id);
     },
     function handleDeleteCard(id, element) {
       popupConfirmDelete.open()

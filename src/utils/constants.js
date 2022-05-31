@@ -1,5 +1,5 @@
 export const container = document.querySelector('.content');
-export const cardsContainer = '.elements';
+export const cardsContainerSelector = '.elements';
 export const buttonEdit = container.querySelector('.profile__edit-button');
 export const buttonAdd = container.querySelector('.profile__add-button');
 export const changeAvatarContainer = container.querySelector('.profile__avatar-container');

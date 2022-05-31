@@ -58,14 +58,14 @@ const popupChangeAvatar = new PopupWithForm(
         popupChangeAvatar.renderLoading(true);
 
         api.patchAvatar(data)
-        .then((data) => {
-          userInfo.setUserInfo(data);
-        })
-        .catch(err => console.log(err))
-        .finally(() => {
-          popupChangeAvatar.renderLoading(false);
-          popupChangeAvatar.close();
-        });
+          .then((data) => {
+            userInfo.setUserInfo(data);
+          })
+          .catch(err => console.log(err))
+          .finally(() => {
+            popupChangeAvatar.renderLoading(false);
+            popupChangeAvatar.close();
+          });
 });
 
 const popupConfirmDelete = new PopupWithForm(
@@ -88,7 +88,7 @@ api.getInitialCards()
         cardsList.addItem(cardGenerated);
       }
     },
-    sharedData.cardsContainer
+    sharedData.cardsContainerSelector
     );
 
     cardsList.renderItems();
