@@ -19,6 +19,7 @@ const api = new Api(
     }
   }
 );
+let userId;
 const validatorEditForm = new FormValidator(sharedData.config, sharedData.formEditProfile);
 const validatorAddCardForm = new FormValidator(sharedData.config, sharedData.formAddCard);
 const validatorChangeAvatarForm = new FormValidator(sharedData.config, sharedData.formChangeAvatar);
@@ -32,6 +33,7 @@ const userInfo = new UserInfo({
 api.getProfile()
   .then((data) => {
     userInfo.setUserInfo(data);
+    userId = data._id;
   })
   .catch(err => console.log(err));
 // Загрузка информации о пользователе
@@ -84,7 +86,7 @@ api.getInitialCards()
     const cardsList = new Section({
       items: reversed,
       renderer: (cardItem) => {
-        const cardGenerated = getCard(cardItem, popupWithImage, api, popupConfirmDelete);
+        const cardGenerated = getCard(cardItem, popupWithImage, api, popupConfirmDelete, userId);
         cardsList.addItem(cardGenerated);
       }
     },
@@ -102,7 +104,7 @@ api.getInitialCards()
 
         api.postCard(data)
           .then((card) => {
-            const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
+            const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete, userId);
 
             cardsList.addItem(cardGenerated);
             popupAddForm.close();

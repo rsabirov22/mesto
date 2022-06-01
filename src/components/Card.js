@@ -1,9 +1,10 @@
 class Card {
-  constructor(data, cardSelector, handleCardClick, handlePutLike, handleDeleteLike, handleDeleteCard) {
+  constructor(data, cardSelector, userId, handleCardClick, handlePutLike, handleDeleteLike, handleDeleteCard) {
     this._title = data.name;
     this._image = data.link;
     this._likes = data.likes;
     this._id = data._id;
+    this._userId = userId;
     this._ownerId = data.owner._id;
     this._handleCardClick = handleCardClick;
     this._handleDeleteCard = handleDeleteCard;
@@ -28,20 +29,40 @@ class Card {
     // Запишем разметку в приватное поле _element.
     // Так у других элементов появится доступ к ней.
     this._element = this._getTemplate();
+    const image = this._element.querySelector('.element__image');
+    const isLiked = this._verifyMyLike(this._likes);
+
     this._setEventListeners();
 
     // Добавим данные
-    this._element.querySelector('.element__image').src = this._image;
+    if (isLiked) {
+      this._element.querySelector('.element__btn').classList.add('element__btn_active');
+    }
+    image.src = this._image;
     this._element.querySelector('.element__title').textContent = this._title;
-    this._element.querySelector('.element__image').alt = this._title;
+    image.alt = this._title;
     this._element.querySelector('.element__counter').textContent = this._likes.length;
-    if (this._ownerId === '0906fd565294f9f104e3db00') {
+    if (this._ownerId === this._userId) {
       this._element.querySelector('.element__del').classList.add('element__del_visible');
       this._element.querySelector('.element__del').removeAttribute('disabled', 'disabled');
     }
 
     // Вернём элемент наружу
     return this._element;
+  }
+
+  _verifyMyLike(likes) {
+    const likeProperties = [];
+
+    likes.forEach(like => {
+      for (let key in like) {
+        likeProperties.push(like[key]);
+      }
+    });
+
+    const isLiked = likeProperties.includes(this._userId);
+
+    return isLiked;
   }
 
   removeElementFromDom(element) {
