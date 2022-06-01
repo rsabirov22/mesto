@@ -6,6 +6,7 @@ import { getCard } from '../utils/utils.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupConfirm from '../components/PopupConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
@@ -38,16 +39,16 @@ const popupEditForm = new PopupWithForm(
       '.popup_edit',
       function handleFormEditSubmit(data) {
 
-        popupEditForm.renderLoading(true);
+        popupEditForm.renderLoading(true, 'Сохранить');
 
         api.patchProfile(data)
           .then((data) => {
             userInfo.setUserInfo(data);
+            popupEditForm.close();
           })
           .catch(err => console.log(err))
           .finally(() => {
-            popupEditForm.renderLoading(false);
-            popupEditForm.close();
+            popupEditForm.renderLoading(false, 'Сохранить');
           });
 });
 
@@ -55,24 +56,20 @@ const popupChangeAvatar = new PopupWithForm(
       '.popup_avatar',
       function handleFormChangeAvatarSubmit(data) {
 
-        popupChangeAvatar.renderLoading(true);
+        popupChangeAvatar.renderLoading(true, 'Сохранить');
 
         api.patchAvatar(data)
           .then((data) => {
             userInfo.setUserInfo(data);
+            popupChangeAvatar.close();
           })
           .catch(err => console.log(err))
           .finally(() => {
-            popupChangeAvatar.renderLoading(false);
-            popupChangeAvatar.close();
+            popupChangeAvatar.renderLoading(false, 'Сохранить');
           });
 });
 
-const popupConfirmDelete = new PopupWithForm(
-  '.popup_confirm',
-  function handleFormConfirmSubmit() {
-    popupConfirmDelete.close();
-});
+const popupConfirmDelete = new PopupConfirm('.popup_confirm');
 
 validatorEditForm.enableValidation();
 validatorAddCardForm.enableValidation();
@@ -81,8 +78,11 @@ validatorChangeAvatarForm.enableValidation();
 // выводим на страницу первоначальный набор карточек
 api.getInitialCards()
   .then((data) => {
+
+    const reversed = data.reverse();
+
     const cardsList = new Section({
-      items: data,
+      items: reversed,
       renderer: (cardItem) => {
         const cardGenerated = getCard(cardItem, popupWithImage, api, popupConfirmDelete);
         cardsList.addItem(cardGenerated);
@@ -98,18 +98,18 @@ api.getInitialCards()
       '.popup_add',
       function handleFormAddSubmit(data) {
 
-        popupAddForm.renderLoading(true);
+        popupAddForm.renderLoading(true, 'Создать');
 
         api.postCard(data)
           .then((card) => {
             const cardGenerated = getCard(card, popupWithImage, api, popupConfirmDelete);
 
             cardsList.addItem(cardGenerated);
+            popupAddForm.close();
           })
           .catch(err => console.log(err))
           .finally(() => {
-            popupAddForm.renderLoading(false);
-            popupAddForm.close();
+            popupAddForm.renderLoading(false, 'Создать');
           });
     });
 

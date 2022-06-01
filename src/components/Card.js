@@ -1,5 +1,3 @@
-import * as sharedData from '../utils/constants.js';
-
 class Card {
   constructor(data, cardSelector, handleCardClick, handlePutLike, handleDeleteLike, handleDeleteCard) {
     this._title = data.name;
@@ -12,7 +10,6 @@ class Card {
     this._handlePutLike = handlePutLike;
     this._handleDeleteLike = handleDeleteLike;
     this._cardSelector = cardSelector;
-    this._cardsContainer = sharedData.container.querySelector(sharedData.cardsContainerSelector);
   }
 
   _getTemplate() {
@@ -45,6 +42,11 @@ class Card {
 
     // Вернём элемент наружу
     return this._element;
+  }
+
+  removeElementFromDom(element) {
+    element.remove();
+    element = null;
   }
 
   _toggleLikeIcon(element) {

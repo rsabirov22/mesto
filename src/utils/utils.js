@@ -16,13 +16,20 @@ export function getCard(data, popupWithImage, api, popupConfirmDelete) {
     function handleDeleteCard(id, element) {
       popupConfirmDelete.open()
         .then(() => {
+          popupConfirmDelete.renderLoading(true, 'Да');
+
           api.deleteCard(id)
             .then(() => {
-              element.remove();
-              element = null;
+              card.removeElementFromDom(element);
+
+              popupConfirmDelete.close();
             })
-            .catch(err => console.log(err));
-      });
+            .catch(err => console.log(err))
+            .finally(() => {
+              popupConfirmDelete.renderLoading(false, 'Да');
+            });
+      })
+      .catch(err => console.log(err));;
     }
   );
 
