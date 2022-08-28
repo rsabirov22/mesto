@@ -19,9 +19,9 @@ Mesto
 
 - Установить зависимости: npm install
 - Запустить проект на локальном сервере: npm run dev
+- Локально приложение доступно по адресу: http://localhost:3000
 
 
 ## Ссылка на GitHub Pages
 
 https://rsabirov22.github.io/mesto/index.html
-
